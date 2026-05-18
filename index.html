@@ -1,0 +1,1999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- PRIMARY META -->
+<title>Stohnn — Compressor-Free Thermal Management</title>
+<meta name="description" content="Stohnn builds compressor-free, electrified thermal management systems for data centers, federal buildings, military installations, hospitals, and critical infrastructure. No moving parts. No combustion. No software dependency.">
+<meta name="keywords" content="compressor-free cooling, electrified HVAC, thermal management, data center cooling, military cooling, federal building electrification, solid-state cooling, Stohnn">
+<meta name="author" content="Stohnn">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#07090D">
+
+<!-- OPEN GRAPH -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stohnn.com/">
+<meta property="og:title" content="Stohnn — Compressor-Free Thermal Management">
+<meta property="og:description" content="Electrified thermal management systems with no moving parts in the thermal loop, no combustion, and no software dependency. Space-validated. Built for facilities that cannot afford failure.">
+<meta property="og:image" content="https://stohnn.com/og-image.png">
+<meta property="og:site_name" content="Stohnn">
+<meta property="og:locale" content="en_US">
+
+<!-- TWITTER -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://stohnn.com/">
+<meta name="twitter:title" content="Stohnn — Compressor-Free Thermal Management">
+<meta name="twitter:description" content="No moving parts. No combustion. No software dependency. Thermal management built for facilities that cannot afford failure.">
+<meta name="twitter:image" content="https://stohnn.com/og-image.png">
+
+<!-- CANONICAL -->
+<link rel="canonical" href="https://stohnn.com/">
+
+<!-- FAVICON -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2307090D'/><text y='.9em' font-size='80' fill='%232B8EFF'>S</text></svg>">
+
+<!-- FONTS -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════
+   TOKENS — Stohnn: electric blue replaces lime
+══════════════════════════════════════════ */
+:root {
+  --black:   #07090D;
+  --steel:   #0F1219;
+  --card:    #111520;
+  --rule:    #1C2233;
+  --muted:   #3D4A60;
+  --body:    #8A9AB8;
+  --white:   #EFF0F0;
+  --accent:  #2B8EFF;
+  --accent2: #1A6FD4;
+  --outer-background: var(--steel);
+  --page-wrap-border: var(--rule);
+}
+
+/* ══════════════════════════════════════════
+   RESET + BASE
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--outer-background);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  text-align: center;
+}
+
+.page-wrap {
+  position: relative;
+  max-width: 1080px;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--black);
+  box-shadow: 0 0 120px rgba(0,0,0,0.4);
+  border-left: 1px solid var(--page-wrap-border);
+  border-right: 1px solid var(--page-wrap-border);
+}
+
+/* ══════════════════════════════════════════
+   NOISE OVERLAY
+══════════════════════════════════════════ */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ══════════════════════════════════════════
+   GRID OVERLAY
+══════════════════════════════════════════ */
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(43,142,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43,142,255,0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ══════════════════════════════════════════
+   ACCENT BAR
+══════════════════════════════════════════ */
+.accent-bar {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  position: relative;
+  z-index: 1;
+}
+
+/* ══════════════════════════════════════════
+   KEYFRAMES
+══════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-ring {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.03); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--accent); }
+  50%       { opacity: 0.2; box-shadow: none; }
+}
+@keyframes accentPulse {
+  0%, 100% { text-shadow: 0 0 0 transparent; }
+  50%       { text-shadow: 0 0 24px rgba(43,142,255,0.4); }
+}
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  background: rgba(7,9,13,0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--rule);
+  animation: slideDown 0.6s ease both;
+}
+
+.nav-inner {
+  width: 100%;
+  max-width: 1080px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 48px;
+  position: relative;
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-logo span { color: var(--accent); }
+.nav-logo:hover { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--body);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-cta {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--accent);
+  padding: 10px 22px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.15s;
+}
+.nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 24px; height: 2px;
+  background: var(--white);
+  transition: all 0.3s;
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  background: rgba(7,9,13,0.98);
+  border-bottom: 1px solid var(--rule);
+  padding: 24px;
+  z-index: 499;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--body);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: var(--accent); }
+.mobile-menu .nav-cta { margin-top: 8px; }
+
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 24px 80px;
+  overflow: hidden;
+}
+
+#hero::before {
+  content: '';
+  position: absolute;
+  top: 20%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(43,142,255,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* HERO BACKGROUND IMAGE
+   File: hero-background.jpg | Size: 1920x1080px
+   Prompt: Photorealistic wide-angle interior of a large federal data center at night.
+   Long rows of illuminated server racks receding into the distance. Cool blue and white
+   lighting. Dark ceiling. Clean industrial floor. No people. No text. No logos.
+   Cinematic. Low angle looking down the aisle. Ultra high resolution. 16x9.
+   Usage: Set as background-image on #hero, with overlay */
+#hero .hero-bg-img {
+  position: absolute;
+  inset: 0;
+  background-image: url('hero-background.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.hero-bg-text {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(120px, 22vw, 320px);
+  color: rgba(43,142,255,0.018);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  animation: fadeIn 0.8s ease 0.2s both;
+}
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--accent);
+}
+
+.hero-headline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(68px, 12vw, 148px);
+  line-height: 0.88;
+  letter-spacing: 0.02em;
+  margin-bottom: 32px;
+  animation: fadeUp 0.8s ease 0.35s both;
+}
+.hero-headline .line-accent {
+  color: var(--accent);
+  animation: accentPulse 4s ease-in-out infinite;
+  display: inline-block;
+}
+
+.hero-sub {
+  font-size: clamp(15px, 2vw, 19px);
+  color: var(--body);
+  max-width: 580px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+  font-weight: 300;
+  text-align: center;
+  animation: fadeUp 0.8s ease 0.5s both;
+}
+.hero-sub strong { color: var(--white); font-weight: 500; }
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 0.8s ease 0.65s both;
+}
+
+.btn-primary {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--accent);
+  padding: 16px 36px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  display: inline-block;
+}
+.btn-primary:hover {
+  background: var(--accent2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(43,142,255,0.3);
+}
+
+.btn-ghost {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--body);
+  border: 1px solid var(--rule);
+  padding: 16px 36px;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+  display: inline-block;
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.hero-stats {
+  display: flex;
+  margin-top: 72px;
+  border: 1px solid var(--rule);
+  background: var(--card);
+  width: 100%;
+  max-width: 760px;
+  animation: fadeUp 0.8s ease 0.8s both;
+}
+.hero-stat {
+  flex: 1;
+  padding: 20px 16px;
+  border-right: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--accent);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+/* ══════════════════════════════════════════
+   SECTIONS — SHARED
+══════════════════════════════════════════ */
+.section {
+  position: relative;
+  z-index: 1;
+  padding: 120px 24px;
+  border-top: 1px solid var(--rule);
+}
+
+.section-inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.section-label::before,
+.section-label::after {
+  content: '';
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--accent);
+}
+
+h2.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(44px, 6vw, 80px);
+  letter-spacing: 0.02em;
+  line-height: 0.92;
+  margin-bottom: 24px;
+  text-align: center;
+}
+h2.section-title .acc { color: var(--accent); }
+
+.section-body {
+  font-size: 16px;
+  color: var(--body);
+  max-width: 640px;
+  line-height: 1.8;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.section-body strong { color: var(--white); font-weight: 500; }
+
+/* ══════════════════════════════════════════
+   IMAGE PLACEHOLDER UTILITY
+══════════════════════════════════════════ */
+.img-placeholder {
+  background: var(--card);
+  border: 1px dashed var(--rule);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 20px;
+}
+.img-placeholder .ph-size {
+  font-size: 18px;
+  color: var(--accent);
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.05em;
+}
+.img-placeholder .ph-file {
+  color: var(--body);
+  font-size: 11px;
+}
+
+/* ══════════════════════════════════════════
+   SYSTEM DIAGRAM — Full width image
+══════════════════════════════════════════ */
+.system-diagram-wrap {
+  width: 100%;
+  margin: 56px 0 24px;
+  position: relative;
+}
+/* SYSTEM CUTAWAY IMAGE
+   File: system-cutaway.png | Size: 2400x1800px
+   Use the corrected Stohnn concept rendering.
+   Regenerate at 2400x1800 minimum with dark near-black background (#0a0a0f).
+   This removes the white box artifact on the dark site background. */
+.system-diagram-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.system-diagram-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 12px;
+  text-align: center;
+}
+
+/* ══════════════════════════════════════════
+   ABOUT / PILLARS
+══════════════════════════════════════════ */
+#about { background: var(--steel); }
+
+.about-statement {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(24px, 3.5vw, 40px);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: var(--white);
+  text-align: center;
+  max-width: 720px;
+  margin: 40px auto;
+}
+.about-statement .acc { color: var(--accent); }
+
+.about-pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  width: 100%;
+  margin-top: 48px;
+}
+
+.pillar {
+  background: var(--card);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.pillar::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+.pillar:hover { background: #141925; }
+.pillar:hover::after { transform: scaleX(1); }
+
+.pillar-icon {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 14px;
+  opacity: 0.7;
+}
+.pillar-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 10px;
+  letter-spacing: 0.03em;
+}
+.pillar-body {
+  font-size: 13px;
+  color: var(--body);
+  line-height: 1.65;
+}
+
+/* ══════════════════════════════════════════
+   MARKET CARDS
+══════════════════════════════════════════ */
+.market-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  width: 100%;
+  margin-top: 56px;
+}
+
+.market-card {
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s;
+}
+.market-card:hover { background: #141925; }
+.market-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+.market-card:hover::after { transform: scaleX(1); }
+
+/* MARKET CARD IMAGES — 600x400px each
+   market-data-center.jpg: Photorealistic close-up of high-density server rack infrastructure.
+     Blue and white LED lighting. No people. No text. No logos. Dark background. Landscape.
+   market-federal.jpg: Photorealistic exterior of a federal government building or military
+     installation at dusk. Monumental architecture. American flag visible. No people. Landscape.
+   market-cleanroom.jpg: Photorealistic interior of a pharmaceutical clean room. White walls.
+     Stainless steel. Air handling visible in ceiling. No people. No text. Landscape. */
+.market-card-img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  position: relative;
+}
+.market-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.market-card:hover .market-card-img img { transform: scale(1.04); }
+
+.market-card-body {
+  padding: 28px 24px 32px;
+}
+.market-card-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--rule);
+  line-height: 1;
+  margin-bottom: 10px;
+  transition: color 0.25s;
+}
+.market-card:hover .market-card-num { color: rgba(43,142,255,0.12); }
+.market-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+}
+.market-card-desc {
+  font-size: 13px;
+  color: var(--body);
+  line-height: 1.65;
+}
+
+/* ══════════════════════════════════════════
+   TECHNOLOGY SECTION
+══════════════════════════════════════════ */
+#technology {}
+
+.tech-component {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-bottom: 1px;
+}
+.tech-component:last-of-type { margin-bottom: 0; }
+
+.tech-component-img {
+  /* COMPONENT IMAGES — 800x600px each. See image plan below.
+     tech-pump-array.jpg | tech-thermal-core.jpg | tech-valve.jpg
+     tech-fan.jpg | tech-acoustic-liner.jpg | tech-filtration.jpg | tech-bearings.jpg */
+  background: var(--card);
+  overflow: hidden;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tech-component-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.tech-component-img.reverse { order: 2; }
+
+.tech-component-text {
+  background: var(--card);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+.tech-component-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.tech-component-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(24px, 3vw, 36px);
+  letter-spacing: 0.02em;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.tech-component-body {
+  font-size: 14px;
+  color: var(--body);
+  line-height: 1.75;
+}
+.tech-component-body strong { color: var(--white); font-weight: 500; }
+
+/* Spec strip */
+.tech-spec-strip {
+  display: flex;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-top: none;
+  width: 100%;
+  margin-bottom: 48px;
+}
+.tech-spec-item {
+  flex: 1;
+  background: var(--card);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: none;
+}
+.tech-spec-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--accent);
+  line-height: 1;
+}
+.tech-spec-key {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* Acoustic 4-layer strip */
+.acoustic-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  width: 100%;
+  margin-top: 48px;
+}
+.acoustic-item {
+  background: var(--card);
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.acoustic-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--rule);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.acoustic-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.acoustic-body {
+  font-size: 12px;
+  color: var(--body);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════
+   PRODUCTS
+══════════════════════════════════════════ */
+#products { background: var(--steel); }
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  width: 100%;
+  margin-top: 56px;
+}
+
+.product-card {
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s;
+}
+.product-card:hover { background: #141925; }
+.product-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+.product-card:hover::after { transform: scaleX(1); }
+
+/* PRODUCT IMAGES — 800x800px each, square format, dark studio background
+   product-zone-cooling.jpg | product-air-handler.jpg | product-tactical.jpg
+   product-cleanroom.jpg | product-datacenter.jpg
+   See full prompts in image plan document. */
+.product-card-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+.product-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.product-card:hover .product-card-img img { transform: scale(1.04); }
+
+.product-card-body {
+  padding: 28px 24px 32px;
+}
+.product-card-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--rule);
+  line-height: 1;
+  margin-bottom: 10px;
+  transition: color 0.25s;
+}
+.product-card:hover .product-card-num { color: rgba(43,142,255,0.12); }
+.product-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+.product-card-market {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.product-card-desc {
+  font-size: 13px;
+  color: var(--body);
+  line-height: 1.65;
+}
+
+/* ══════════════════════════════════════════
+   MISSION
+══════════════════════════════════════════ */
+#mission {}
+
+/* MISSION HERO IMAGE
+   File: mission-hero.jpg | Size: 1920x600px
+   Prompt: Photorealistic wide panoramic interior of a large aerospace research facility.
+   High ceilings. Precision equipment visible. Cool blue and white lighting. Empty of people.
+   Serious and purposeful atmosphere. No text. No logos. Ultra-wide approximately 3x1 ratio. */
+.mission-hero-img {
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  margin-bottom: 80px;
+  position: relative;
+}
+.mission-hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  opacity: 0.7;
+}
+
+.mission-body-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  width: 100%;
+  margin-top: 56px;
+}
+.mission-text-block {
+  background: var(--card);
+  padding: 40px 36px;
+  text-align: left;
+}
+.mission-text-block p {
+  font-size: 14px;
+  color: var(--body);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.mission-text-block p:last-child { margin-bottom: 0; }
+.mission-text-block strong { color: var(--white); font-weight: 500; }
+
+/* SPACE IMAGE
+   File: mission-space.jpg | Size: 800x600px
+   Prompt: Photorealistic image of the International Space Station exterior against black
+   space with Earth below. Solar panels extended. Dramatic sunlight at an angle.
+   No text. No logos. Landscape orientation. */
+.mission-img-block {
+  background: var(--card);
+  overflow: hidden;
+  min-height: 320px;
+}
+.mission-img-block img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ══════════════════════════════════════════
+   CONTACT
+══════════════════════════════════════════ */
+#contact {}
+
+.contact-statement {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  color: var(--white);
+  margin: 24px 0 40px;
+  text-align: center;
+}
+.contact-statement .acc { color: var(--accent); }
+
+.contact-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 56px;
+}
+.contact-item {
+  background: var(--card);
+  padding: 20px 32px;
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.contact-item-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.contact-item-val {
+  font-size: 14px;
+  color: var(--white);
+  font-weight: 400;
+}
+.contact-item-val a { color: var(--accent); text-decoration: none; }
+.contact-item-val a:hover { text-decoration: underline; }
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  width: 100%;
+  max-width: 640px;
+}
+.form-field {
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.form-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 16px 20px 0;
+}
+.form-field input,
+.form-field select,
+.form-field textarea {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 8px 20px 16px;
+  width: 100%;
+  resize: none;
+  -webkit-appearance: none;
+  text-align: left;
+}
+.form-field select option { background: var(--card); color: var(--white); }
+.form-field input::placeholder,
+.form-field textarea::placeholder { color: rgba(239,240,240,0.45); }
+.form-field select { color: var(--white); }
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  background: rgba(43,142,255,0.03);
+}
+
+.form-submit {
+  background: var(--card);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+.form-submit button {
+  width: 100%;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--accent);
+  border: none;
+  padding: 18px 32px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.form-submit button:hover {
+  background: var(--accent2);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(43,142,255,0.3);
+}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--rule);
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  color: var(--white);
+}
+.footer-logo span { color: var(--accent); }
+.footer-tagline {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.footer-links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--accent); }
+.footer-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  nav { padding: 0; justify-content: center; }
+  .nav-inner { padding: 16px 20px; }
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .hamburger { display: flex; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }
+
+  #hero { padding: 110px 20px 60px; }
+  .section { padding: 80px 20px; }
+
+  .hero-stats { flex-direction: column; max-width: 100%; }
+  .hero-stat { border-right: none; border-bottom: 1px solid var(--rule); padding: 16px; }
+  .hero-stat:last-child { border-bottom: none; }
+
+  .about-pillars { grid-template-columns: 1fr; }
+  .market-grid { grid-template-columns: 1fr; }
+  .product-grid { grid-template-columns: 1fr; }
+  .tech-component { grid-template-columns: 1fr; }
+  .tech-component-img.reverse { order: 0; }
+  .tech-spec-strip { flex-direction: column; }
+  .acoustic-strip { grid-template-columns: 1fr 1fr; }
+  .mission-body-wrap { grid-template-columns: 1fr; }
+  .contact-items { flex-direction: column; }
+  .contact-item { min-width: unset; }
+  .mission-hero-img { height: 200px; margin-bottom: 48px; }
+
+  footer { padding: 32px 20px; }
+}
+
+@media (max-width: 480px) {
+  .hero-headline { font-size: clamp(56px, 14vw, 80px); }
+  .hero-actions { flex-direction: column; width: 100%; }
+  .btn-primary, .btn-ghost { width: 100%; text-align: center; }
+  .acoustic-strip { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="grid-lines"></div>
+<div class="accent-bar"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">Stohnn<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#technology">Technology</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#mission">Mission</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get in Touch</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#technology" onclick="closeMobile()">Technology</a>
+  <a href="#products" onclick="closeMobile()">Products</a>
+  <a href="#mission" onclick="closeMobile()">Mission</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="#contact" class="nav-cta" onclick="closeMobile()">Get in Touch</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-img"></div>
+  <div class="hero-bg-text">COOL</div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Compressor-Free Thermal Management</div>
+    <h1 class="hero-headline">
+      NO COMPRESSOR.<br>
+      <span class="line-accent">NO LIMITS.</span>
+    </h1>
+    <p class="hero-sub">
+      Every cooling system in the world is built around a compressor.<br>
+      <strong>Stohnn removes it entirely.</strong><br>
+      No moving parts in the thermal loop. No combustion. No software dependency.<br>
+      Space-validated. Built for facilities that cannot afford failure.
+    </p>
+    <div class="hero-actions">
+      <a href="#technology" class="btn-primary">See the Technology</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">0</div>
+        <div class="hero-stat-label">Moving Parts in Thermal Loop</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2 YR</div>
+        <div class="hero-stat-label">Space Validation Record</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">15%+</div>
+        <div class="hero-stat-label">Fan Efficiency Gain</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">4</div>
+        <div class="hero-stat-label">Acoustic Control Layers</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="section-inner">
+    <div class="section-label reveal">About</div>
+    <h2 class="section-title reveal">A DIFFERENT<br><span class="acc">CATEGORY.</span></h2>
+    <p class="section-body reveal">Stohnn does not improve on conventional HVAC. It replaces the architecture that every conventional system is built on. The result is a thermal management system with fundamentally fewer failure modes, lower operating costs, and no dependence on combustion or software for core operation.</p>
+
+    <div class="about-statement reveal">
+      THE COMPRESSOR IS THE PROBLEM.<br>
+      <span class="acc">WE REMOVED IT.</span>
+    </div>
+
+    <div class="about-pillars">
+      <div class="pillar reveal">
+        <div class="pillar-icon">∅</div>
+        <div class="pillar-title">No Moving Parts in the Thermal Loop</div>
+        <p class="pillar-body">The fluid circulation system has no rotating or reciprocating components. There is nothing to seize, nothing to lubricate in the fluid circuit, and nothing to generate vibration. The pump that moves coolant through the system operates on electric fields alone.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-icon">⚡</div>
+        <div class="pillar-title">Fully Electrified</div>
+        <p class="pillar-body">No combustion anywhere in the system. Stohnn meets federal building electrification mandates by design, not by retrofit. Federal buildings are required to eliminate fossil fuel use for new construction and major renovation by 2030. Stohnn is already there.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-icon">◎</div>
+        <div class="pillar-title">Passive Mechanical Intelligence</div>
+        <p class="pillar-body">Flow regulation responds to the physics of the system, not to a software command. No control loops that can drift. No firmware that can be exploited. The system regulates itself correctly because it is engineered to do so mechanically.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-icon">▲</div>
+        <div class="pillar-title">Space-Validated Architecture</div>
+        <p class="pillar-body">The core fluid circulation technology was validated in continuous operation for two years in one of the most demanding environments that exists. That record is not a marketing claim. It is an operational data point from an environment where failure is not an option.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE BUILD FOR -->
+<section id="markets" class="section">
+  <div class="section-inner">
+    <div class="section-label reveal">Markets</div>
+    <h2 class="section-title reveal">WHO WE<br><span class="acc">BUILD FOR.</span></h2>
+    <p class="section-body reveal">Stohnn systems are designed for facilities that run continuously, cannot tolerate mechanical failure, and need thermal management that does not introduce acoustic, chemical, or cyber risk into the environment.</p>
+
+    <div class="market-grid">
+
+      <div class="market-card reveal">
+        <div class="market-card-img">
+          <!-- IMAGE: market-data-center.jpg | 600x400px
+               Prompt: Photorealistic close-up of high-density server rack infrastructure.
+               Blue and white LED lighting. Cable management visible. No people. No text.
+               No logos. Dark background. Sharp focus on rack hardware. Landscape. -->
+          <div class="img-placeholder" style="height:267px;">
+            <div class="ph-size">600 × 400</div>
+            <div class="ph-file">market-data-center.jpg</div>
+            <div>High-density server rack interior. Blue and white LED lighting. No people.</div>
+          </div>
+        </div>
+        <div class="market-card-body">
+          <div class="market-card-num">01</div>
+          <div class="market-card-title">Data Centers</div>
+          <p class="market-card-desc">Cooling without a compressor means no refrigerant liability, no acoustic disruption to adjacent spaces, and no vibration transmitted to sensitive electronics. The graphite thermal core operates at a pressure drop up to 75 times lower than conventional metal heat exchangers, reducing the energy required to circulate coolant in continuously operating facilities.</p>
+        </div>
+      </div>
+
+      <div class="market-card reveal">
+        <div class="market-card-img">
+          <!-- IMAGE: market-federal.jpg | 600x400px
+               Prompt: Photorealistic exterior of a federal government building or military
+               installation at dusk. Monumental architecture. American flag visible. Cool
+               blue sky. No people visible. No text. No logos. Landscape. -->
+          <div class="img-placeholder" style="height:267px;">
+            <div class="ph-size">600 × 400</div>
+            <div class="ph-file">market-federal.jpg</div>
+            <div>Federal building or military installation exterior at dusk. American flag visible.</div>
+          </div>
+        </div>
+        <div class="market-card-body">
+          <div class="market-card-num">02</div>
+          <div class="market-card-title">Federal Buildings and Military Installations</div>
+          <p class="market-card-desc">Federal buildings are legally required to reduce fossil fuel use by 90 percent for new construction and major renovation through 2029, and 100 percent by 2030. Stohnn systems have no combustion. They meet that requirement without modification. For military facilities, the silent operation and zero software dependency in the thermal loop address acoustic and cybersecurity requirements that conventional systems cannot.</p>
+        </div>
+      </div>
+
+      <div class="market-card reveal">
+        <div class="market-card-img">
+          <!-- IMAGE: market-cleanroom.jpg | 600x400px
+               Prompt: Photorealistic interior of a pharmaceutical clean room or hospital
+               operating suite. White walls. Stainless steel surfaces. Air handling visible
+               in ceiling. No people. No text. No logos. Sterile precise atmosphere. Landscape. -->
+          <div class="img-placeholder" style="height:267px;">
+            <div class="ph-size">600 × 400</div>
+            <div class="ph-file">market-cleanroom.jpg</div>
+            <div>Pharmaceutical clean room interior. White walls. Stainless steel. No people.</div>
+          </div>
+        </div>
+        <div class="market-card-body">
+          <div class="market-card-num">03</div>
+          <div class="market-card-title">Hospitals and Clean Rooms</div>
+          <p class="market-card-desc">Precision environments require thermal management that does not introduce particulates, acoustic disruption, or maintenance downtime. Stohnn's self-regenerating filtration system automatically cleans its collection surface and advances clean filter media without manual intervention, dramatically extending service intervals compared to conventional weekly replacement cycles.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TECHNOLOGY -->
+<section id="technology" class="section">
+  <div class="section-inner">
+    <div class="section-label reveal">Technology</div>
+    <h2 class="section-title reveal">EIGHT SYSTEMS.<br><span class="acc">ONE ARCHITECTURE.</span></h2>
+    <p class="section-body reveal">Every component in a Stohnn system was selected to eliminate a specific failure mode in conventional thermal management. The result is a complete cooling system with no compressor, no refrigerant phase cycling, no combustion, and no software dependency for core operation.</p>
+
+    <!-- SYSTEM CUTAWAY DIAGRAM -->
+    <div class="system-diagram-wrap reveal">
+      <!-- IMAGE: system-cutaway.png | 2400x1800px
+           Use the corrected Stohnn concept rendering with dark background (#0a0a0f).
+           Request regeneration at 2400x1800 minimum. Dark background version only. -->
+      <div class="img-placeholder" style="aspect-ratio: 4/3; width:100%;">
+        <div class="ph-size">2400 × 1800</div>
+        <div class="ph-file">system-cutaway.png</div>
+        <div>Stohnn cutaway concept rendering. Dark background version. All 8 components labeled with in-house names.</div>
+      </div>
+      <div class="system-diagram-label">Concept rendering. Not a certified engineering drawing.</div>
+    </div>
+
+    <!-- PERFORMANCE SPEC STRIP -->
+    <div class="tech-spec-strip reveal">
+      <div class="tech-spec-item">
+        <div class="tech-spec-val">0.066 PSI</div>
+        <div class="tech-spec-key">Thermal Core Pressure Drop at 1,100W</div>
+      </div>
+      <div class="tech-spec-item">
+        <div class="tech-spec-val">15%+</div>
+        <div class="tech-spec-key">Fan Power Reduction vs Conventional</div>
+      </div>
+      <div class="tech-spec-item">
+        <div class="tech-spec-val">10,000 HR</div>
+        <div class="tech-spec-key">Zero-Wear Bearing Test Duration</div>
+      </div>
+      <div class="tech-spec-item">
+        <div class="tech-spec-val">2 YR</div>
+        <div class="tech-spec-key">Continuous Space Validation</div>
+      </div>
+    </div>
+
+    <!-- COMPONENT 1: SOLID-STATE PUMP ARRAY -->
+    <div class="tech-component reveal">
+      <div class="tech-component-img">
+        <!-- IMAGE: tech-pump-array.jpg | 800x600px
+             Prompt: Photorealistic close-up 3D render of four modular cylindrical pump units
+             mounted vertically on a dark metal chassis. Blue electrical glow from internal
+             components through semi-transparent housing. Precision engineering. Dark background.
+             No text. No labels. Studio lighting. Landscape. -->
+        <div class="img-placeholder" style="width:100%; height:100%; min-height:280px;">
+          <div class="ph-size">800 × 600</div>
+          <div class="ph-file">tech-pump-array.jpg</div>
+          <div>Four modular cylindrical pump units. Blue glow. Dark chassis. Studio lighting.</div>
+        </div>
+      </div>
+      <div class="tech-component-text">
+        <div class="tech-component-num">System 01</div>
+        <div class="tech-component-title">Stohnn Solid-State Pump Array</div>
+        <p class="tech-component-body">Electric fields move dielectric coolant through a sealed thermal loop. <strong>No moving parts. No compressor. No rotating components in the fluid circuit.</strong> The pump array is modular. Capacity scales by adding modules in parallel for greater flow or in series for longer pumping distance. Nothing to seize, nothing to lubricate, nothing to fail in the conventional mechanical sense. Validated in continuous operation for two years in one of the most demanding environments that exists.</p>
+      </div>
+    </div>
+
+    <!-- COMPONENT 2: THERMAL CORE -->
+    <div class="tech-component reveal">
+      <div class="tech-component-img reverse">
+        <!-- IMAGE: tech-thermal-core.jpg | 800x600px
+             Prompt: Photorealistic close-up of a dense graphite heat exchanger with fine
+             parallel channels. Dark gray graphite material. Orange heat glow between channels.
+             Blue coolant lines entering from one side. Dark background. No text. No labels.
+             Macro photography style. Landscape. -->
+        <div class="img-placeholder" style="width:100%; height:100%; min-height:280px;">
+          <div class="ph-size">800 × 600</div>
+          <div class="ph-file">tech-thermal-core.jpg</div>
+          <div>Graphite heat exchanger with fine channels. Orange heat glow. Blue coolant lines.</div>
+        </div>
+      </div>
+      <div class="tech-component-text">
+        <div class="tech-component-num">System 02</div>
+        <div class="tech-component-title">Stohnn Thermal Core</div>
+        <p class="tech-component-body">Graphite mini-channel design replacing conventional metal heat exchangers. Graphite delivers a higher ratio of thermal conductivity to density than metal, expands less under heat cycling, and produces significantly less flow resistance. <strong>Demonstrated pressure drop of 0.066 psi at 1,100 watts of thermal transport</strong>, compared to 1 to 5 psi typical of metal alternatives. That is 15 to 75 times lower resistance. In facilities running cooling continuously, lower pumping resistance compounds into significant annual energy savings.</p>
+      </div>
+    </div>
+
+    <!-- COMPONENT 3: FLOW REGULATION VALVE -->
+    <div class="tech-component reveal">
+      <div class="tech-component-img">
+        <!-- IMAGE: tech-valve.jpg | 800x600px
+             Prompt: Photorealistic close-up 3D render of a precision mechanical valve in
+             cross-section. Polished metal internal surfaces. A thin flexible reed element
+             visible inside the valve body. No motors. No wires. Pure mechanical component.
+             Dark background. Studio lighting. No text. No labels. Landscape. -->
+        <div class="img-placeholder" style="width:100%; height:100%; min-height:280px;">
+          <div class="ph-size">800 × 600</div>
+          <div class="ph-file">tech-valve.jpg</div>
+          <div>Precision mechanical valve cross-section. Reed element visible. No motors. No wires.</div>
+        </div>
+      </div>
+      <div class="tech-component-text">
+        <div class="tech-component-num">System 03</div>
+        <div class="tech-component-title">Stohnn Flow Regulation Valve</div>
+        <p class="tech-component-body">Passive, proportional, bidirectional flow control. As pressure builds on one side of the valve, the reed opens proportionally to demand. When pressure drops, it closes. <strong>No motor. No control signal. No software.</strong> The system regulates itself in response to the physics of what is happening in the thermal loop. This is what Stohnn means by passive mechanical intelligence. A conventional system uses a motorized actuator or software loop that can drift, fail, or be exploited. Stohnn uses mechanics.</p>
+      </div>
+    </div>
+
+    <!-- COMPONENT 4: AXIAL FAN -->
+    <div class="tech-component reveal">
+      <div class="tech-component-img reverse">
+        <!-- IMAGE: tech-fan.jpg | 800x600px
+             Prompt: Photorealistic close-up front view of a large precision axial fan with
+             non-linear twisted blade geometry. Dark matte blades with subtle blue ambient
+             lighting from behind. Motion blur at blade tips suggesting rotation. Dark background.
+             No text. No labels. Studio lighting. -->
+        <div class="img-placeholder" style="width:100%; height:100%; min-height:280px;">
+          <div class="ph-size">800 × 600</div>
+          <div class="ph-file">tech-fan.jpg</div>
+          <div>Precision axial fan. Non-linear blade twist. Blue ambient glow. Motion blur at tips.</div>
+        </div>
+      </div>
+      <div class="tech-component-text">
+        <div class="tech-component-num">System 04</div>
+        <div class="tech-component-title">Stohnn Axial Fan</div>
+        <p class="tech-component-body">Non-linear blade twist redistributes aerodynamic load away from the blade tip, dissipating the tip vortex over a wider area. Tip loading is where conventional fans waste the most energy and generate the most noise. <strong>More than 15 percent improvement in power consumption at equivalent thrust</strong> compared to conventional blade designs, with significantly less aerodynamic noise. Blade diameter and rotation speed remain unchanged. The efficiency comes from geometry.</p>
+      </div>
+    </div>
+
+    <!-- COMPONENT 5: ACOUSTIC LINER -->
+    <div class="tech-component reveal">
+      <div class="tech-component-img">
+        <!-- IMAGE: tech-acoustic-liner.jpg | 800x600px
+             Prompt: Photorealistic close-up of an acoustic liner panel in cross-section showing
+             resonator chambers of varying depths. Dark charcoal material. Precise geometric
+             internal structure visible. Sound wave visualization overlaid as subtle blue graphic.
+             Dark background. No text. No labels. Landscape. -->
+        <div class="img-placeholder" style="width:100%; height:100%; min-height:280px;">
+          <div class="ph-size">800 × 600</div>
+          <div class="ph-file">tech-acoustic-liner.jpg</div>
+          <div>Acoustic liner cross-section. Resonator chambers visible. Blue sound wave overlay.</div>
+        </div>
+      </div>
+      <div class="tech-component-text">
+        <div class="tech-component-num">System 05</div>
+        <div class="tech-component-title">Inlet and Duct Acoustic Liner</div>
+        <p class="tech-component-body">Coupled resonator design reduces duct noise transmission without airflow penalty. Multiple resonators tuned to different frequencies share a single inlet, reducing the number of facesheet openings by a factor of two or more without degrading attenuation. Less open area means less drag. <strong>Stohnn has four independent acoustic control layers</strong>: the bearing assembly eliminates shaft wear noise, the fan blade geometry reduces tip noise, the duct liner reduces transmission noise, and the absence of a compressor removes the loudest single component in any conventional system.</p>
+      </div>
+    </div>
+
+    <!-- COMPONENT 6: BEARING ASSEMBLY -->
+    <div class="tech-component reveal">
+      <div class="tech-component-img reverse">
+        <!-- IMAGE: tech-bearings.jpg | 800x600px
+             Prompt: Photorealistic macro photograph of two precision ball bearings on a dark
+             surface. Polished silver-white metallic finish, not standard steel gray. Perfect
+             spherical balls visible inside the race. Shallow depth of field. Dark background.
+             No text. No labels. Landscape. -->
+        <div class="img-placeholder" style="width:100%; height:100%; min-height:280px;">
+          <div class="ph-size">800 × 600</div>
+          <div class="ph-file">tech-bearings.jpg</div>
+          <div>Precision ball bearings macro. Silver-white alloy finish. Shallow depth of field.</div>
+        </div>
+      </div>
+      <div class="tech-component-text">
+        <div class="tech-component-num">System 06</div>
+        <div class="tech-component-title">Stohnn Precision Bearing Assembly</div>
+        <p class="tech-component-body">Corrosion-proof, shock-resistant nickel-titanium alloy at every rotating component. Immune to rust. Does not chemically degrade lubricants. 15 percent lighter than steel. The small-diameter bearings in fan motors and actuators use an advanced hafnium alloy variant achieving <strong>Rockwell hardness of HRC 58 to 60 with zero measurable wear after 10,000 hours of continuous testing</strong>. These are not incremental improvements on steel bearings. They are a different material category built for long-duration continuous operation.</p>
+      </div>
+    </div>
+
+    <!-- COMPONENT 7: FILTRATION -->
+    <div class="tech-component reveal">
+      <div class="tech-component-img">
+        <!-- IMAGE: tech-filtration.jpg | 800x600px
+             Prompt: Photorealistic close-up of a multi-layer air filtration assembly showing
+             a fine mesh prefilter stage and a HEPA-style fine filter stage. Clean white and
+             gray filter media. Blue airflow arrows suggesting air movement through layers.
+             Dark background. No text. No labels. Landscape. -->
+        <div class="img-placeholder" style="width:100%; height:100%; min-height:280px;">
+          <div class="ph-size">800 × 600</div>
+          <div class="ph-file">tech-filtration.jpg</div>
+          <div>Multi-layer filtration assembly. Prefilter and HEPA stage. Blue airflow arrows.</div>
+        </div>
+      </div>
+      <div class="tech-component-text">
+        <div class="tech-component-num">System 07</div>
+        <div class="tech-component-title">Stohnn Multi-Stage Air Filter</div>
+        <p class="tech-component-body">Self-regenerating impactor pre-filter and scroll filter mechanism. The impactor surface cleans itself automatically on a continuous basis. The scroll mechanism advances clean filter media as sections load. <strong>Conventional pre-filter systems require cleaning or replacement as often as once per week</strong> in high-particulate environments. Stohnn's system extends service intervals dramatically with no manual intervention required between scheduled maintenance cycles. Validated in extreme environments including closed-system, high-pressure, high-particulate conditions.</p>
+      </div>
+    </div>
+
+    <!-- ACOUSTIC ARCHITECTURE SUMMARY -->
+    <div class="section-label reveal" style="margin-top:80px;">Acoustic Architecture</div>
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,4vw,56px);letter-spacing:0.02em;margin-bottom:16px;" class="reveal">FOUR LAYERS.<br><span class="acc">NO COMPETITOR HAS ALL FOUR.</span></h3>
+    <div class="acoustic-strip reveal">
+      <div class="acoustic-item">
+        <div class="acoustic-num">01</div>
+        <div class="acoustic-title">Bearing Assembly</div>
+        <p class="acoustic-body">NiTi alloy eliminates mechanical wear noise at rotating shafts</p>
+      </div>
+      <div class="acoustic-item">
+        <div class="acoustic-num">02</div>
+        <div class="acoustic-title">Blade Geometry</div>
+        <p class="acoustic-body">Non-linear twist reduces aerodynamic tip noise at fans</p>
+      </div>
+      <div class="acoustic-item">
+        <div class="acoustic-num">03</div>
+        <div class="acoustic-title">Duct Liner</div>
+        <p class="acoustic-body">Coupled resonators reduce noise transmission through the air path</p>
+      </div>
+      <div class="acoustic-item">
+        <div class="acoustic-num">04</div>
+        <div class="acoustic-title">No Compressor</div>
+        <p class="acoustic-body">The loudest component in conventional HVAC does not exist in a Stohnn system</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="section">
+  <div class="section-inner">
+    <div class="section-label reveal">Products</div>
+    <h2 class="section-title reveal">COMPRESSOR-FREE COOLING<br><span class="acc">FOR THE FACILITIES THAT NEED IT.</span></h2>
+    <p class="section-body reveal">Stohnn builds complete thermal management systems. Not components. Not retrofit kits. Complete systems engineered around a single architecture. Current products address cooling applications. Electric heating integration is on the roadmap and fully compatible with the core architecture.</p>
+
+    <div class="product-grid">
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <!-- IMAGE: product-zone-cooling.jpg | 800x800px
+               Prompt: Photorealistic 3D render of a compact floor-standing thermal management
+               unit. Dark matte chassis. Clean industrial design. Single blue LED status
+               indicator. No compressor housing visible. Server room in soft focus background.
+               No text. No labels. Square format. Studio lighting. -->
+          <div class="img-placeholder" style="aspect-ratio:1/1; width:100%;">
+            <div class="ph-size">800 × 800</div>
+            <div class="ph-file">product-zone-cooling.jpg</div>
+            <div>Compact floor-standing cooling unit. Dark matte chassis. Blue LED. Server room bg.</div>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-num">01</div>
+          <div class="product-card-title">Modular Zone Cooling Unit</div>
+          <div class="product-card-market">Data Centers · Server Rooms · C2 Spaces</div>
+          <p class="product-card-desc">Single-zone, compressor-free cooling for server rooms, medical equipment rooms, and command and control spaces. Sized for manageable thermal loads. No refrigerant. No compressor. Minimal maintenance interval. Acoustically quiet by design. The entry product.</p>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <!-- IMAGE: product-air-handler.jpg | 800x800px
+               Prompt: Photorealistic 3D render of a large institutional air handling unit.
+               Rectangular dark chassis with clean panel lines. Hospital corridor in soft
+               focus background. Blue LED indicators. No compressor housing. Square format.
+               Studio lighting. -->
+          <div class="img-placeholder" style="aspect-ratio:1/1; width:100%;">
+            <div class="ph-size">800 × 800</div>
+            <div class="ph-file">product-air-handler.jpg</div>
+            <div>Large institutional air handler. Dark chassis. Blue LEDs. Hospital corridor bg.</div>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-num">02</div>
+          <div class="product-card-title">Institutional Air Handler Unit</div>
+          <div class="product-card-market">Hospitals · Federal Buildings · Military Facilities</div>
+          <p class="product-card-desc">Full air handling for hospitals, federal office buildings, and military facilities. Integrates the complete Stohnn stack: solid-state fluid circulation, graphite thermal core, high-efficiency fans, acoustic duct liner, and self-regenerating multi-stage filtration. Designed for continuous operation with documented energy performance for compliance reporting.</p>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <!-- IMAGE: product-tactical.jpg | 800x800px
+               Prompt: Photorealistic 3D render of a ruggedized military-grade cooling unit.
+               Dark olive and matte black finish. Heavy-duty corner reinforcements. Recessed
+               panel lines. Handle mounts. Forward operating base in soft focus background.
+               No text. No logos. Square format. Studio lighting. -->
+          <div class="img-placeholder" style="aspect-ratio:1/1; width:100%;">
+            <div class="ph-size">800 × 800</div>
+            <div class="ph-file">product-tactical.jpg</div>
+            <div>Ruggedized military cooling unit. Olive and matte black. Corner reinforcements. FOB bg.</div>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-num">03</div>
+          <div class="product-card-title">Silent Tactical Cooling Unit</div>
+          <div class="product-card-market">Forward Operating Bases · SCIFs · Mobile Command</div>
+          <p class="product-card-desc">Ruggedized, acoustically silent thermal management for forward operating bases, mobile command centers, and sensitive compartmented information facilities. No acoustic signature from the thermal loop. No moving parts in the fluid circuit. No software dependency. No refrigerant to manage in the field.</p>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <!-- IMAGE: product-cleanroom.jpg | 800x800px
+               Prompt: Photorealistic 3D render of a precision environmental control unit.
+               White and light gray chassis. Ultra-clean panel design. Ceiling-mounted form.
+               Pharmaceutical clean room in soft focus background. No text. No logos.
+               Square format. Studio lighting. -->
+          <div class="img-placeholder" style="aspect-ratio:1/1; width:100%;">
+            <div class="ph-size">800 × 800</div>
+            <div class="ph-file">product-cleanroom.jpg</div>
+            <div>Precision environmental control unit. White and gray chassis. Clean room bg.</div>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-num">04</div>
+          <div class="product-card-title">Clean Room Environmental Control</div>
+          <div class="product-card-market">Pharma · Semiconductor · Hospital OR Suites</div>
+          <p class="product-card-desc">Precision air handling and filtration for pharmaceutical manufacturing, semiconductor fabrication, and hospital operating suites. Extended filter service intervals reduce contamination risk from maintenance events. Passive flow regulation maintains consistent pressure and temperature without software control loops that can drift or fail.</p>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <!-- IMAGE: product-datacenter.jpg | 800x800px
+               Prompt: Photorealistic 3D render of a rack-integrated liquid cooling unit.
+               Dark chassis with blue coolant line connectors on side panels. High-density
+               server rack environment in soft focus background. No text. No logos.
+               Square format. Studio lighting. -->
+          <div class="img-placeholder" style="aspect-ratio:1/1; width:100%;">
+            <div class="ph-size">800 × 800</div>
+            <div class="ph-file">product-datacenter.jpg</div>
+            <div>Rack liquid cooling unit. Blue coolant connectors on panels. Server rack bg.</div>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-num">05</div>
+          <div class="product-card-title">Data Center Thermal Management System</div>
+          <div class="product-card-market">Hyperscale · Colocation · Edge · DoD Data Centers</div>
+          <p class="product-card-desc">High-density liquid cooling for server racks and power electronics. The solid-state pump array circulates coolant directly to heat sources with no compressor in the loop. No refrigerant. No compressor vibration transmitted to sensitive electronics. Pressure drop through the thermal core is a fraction of conventional liquid cooling systems, reducing pumping energy in continuously operating installations.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section id="mission" class="section">
+  <div class="section-inner">
+    <div class="section-label reveal">Mission</div>
+    <h2 class="section-title reveal">BUILT FROM SIGNALS<br><span class="acc">THE MARKET HAS NOT READ.</span></h2>
+
+    <div class="mission-hero-img reveal">
+      <!-- IMAGE: mission-hero.jpg | 1920x600px
+           Prompt: Photorealistic wide panoramic interior of a large aerospace research facility
+           or advanced engineering laboratory. High ceilings. Precision equipment visible.
+           Cool blue and white lighting. Empty of people. Serious and purposeful atmosphere.
+           No text. No logos. Ultra-wide approximately 3x1 ratio. -->
+      <div class="img-placeholder" style="height:320px; width:100%;">
+        <div class="ph-size">1920 × 600</div>
+        <div class="ph-file">mission-hero.jpg</div>
+        <div>Aerospace research facility interior. High ceilings. Precision equipment. Blue-white lighting. No people.</div>
+      </div>
+    </div>
+
+    <div class="mission-body-wrap">
+      <div class="mission-text-block reveal">
+        <p>The technology behind Stohnn systems has existed for years. It was developed and validated by researchers working on some of the most demanding thermal management problems in existence, including continuous operation aboard the International Space Station. <strong>The core fluid circulation technology ran without failure for two years in that environment.</strong></p>
+        <p>It was never commercialized. Not because it does not work. Because the organizations that could have acted on it had no incentive to. Every major HVAC manufacturer is optimized around a compressor-based architecture. A technology that eliminates the compressor is not an improvement to their product. It is a replacement for it. That is a different kind of threat, and large incumbents do not move toward existential threats voluntarily.</p>
+        <p>The scaling question also stopped early evaluators. The technology was demonstrated at component scale. Nobody funded the engineering work to answer whether it could scale to building-level thermal loads. <strong>That answer is what Stohnn exists to find and to build around.</strong></p>
+      </div>
+      <div class="mission-img-block reveal">
+        <!-- IMAGE: mission-space.jpg | 800x600px
+             Prompt: Photorealistic image of the International Space Station exterior against
+             black space with Earth visible below. Solar panels extended. Station hardware
+             detailed. Dramatic sunlight at an angle. No text. No logos. Landscape. -->
+        <div class="img-placeholder" style="height:100%; min-height:320px; width:100%;">
+          <div class="ph-size">800 × 600</div>
+          <div class="ph-file">mission-space.jpg</div>
+          <div>International Space Station exterior. Black space. Earth below. Solar panels extended.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-body-wrap" style="margin-top:1px;">
+      <div class="mission-text-block reveal" style="grid-column: 1 / -1;">
+        <p>The federal electrification mandate created the procurement urgency that did not exist before. Federal buildings must be fully electrified by 2030. That is a legal obligation, not a policy preference. <strong>Stohnn's architecture meets that requirement by design.</strong> There is no combustion to eliminate because there was never any combustion in the system.</p>
+        <p>Stohnn is not a research project. It is a manufacturing company. The goal is to build systems, sell them to buyers who need them, and prove the architecture at commercial scale. Everything else follows from that.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="section-inner">
+    <div class="section-label reveal">Contact</div>
+    <h2 class="section-title reveal">LET'S<br><span class="acc">TALK.</span></h2>
+    <p class="section-body reveal">Whether you are evaluating thermal management for a procurement, exploring partnership, or considering an investment, we want to hear from you. Every inquiry is reviewed directly by the founding team.</p>
+
+    <div class="contact-statement reveal">
+      THE RIGHT FACILITIES.<br>
+      THE RIGHT MISSIONS.<br>
+      <span class="acc">NO COMPRESSOR.</span>
+    </div>
+
+    <div class="contact-items reveal">
+      <div class="contact-item">
+        <div class="contact-item-label">Website</div>
+        <div class="contact-item-val"><a href="https://stohnn.com">stohnn.com</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Company Status</div>
+        <div class="contact-item-val">Pre-Revenue / Technology Development</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Primary Markets</div>
+        <div class="contact-item-val">Federal, Defense, Data Centers</div>
+      </div>
+    </div>
+
+    <form class="contact-form reveal" id="contactForm">
+      <div class="form-field">
+        <label class="form-label">Full Name</label>
+        <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Organization</label>
+        <input type="text" name="organization" placeholder="Company or institution" autocomplete="organization">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Email Address</label>
+        <input type="email" name="email" placeholder="your@email.com" autocomplete="email" required>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Inquiry Type</label>
+        <select name="inquiry_type" required>
+          <option value="" disabled selected>Select one</option>
+          <option>Federal / Government Procurement</option>
+          <option>Defense and Military</option>
+          <option>Data Center Cooling</option>
+          <option>Investment Inquiry</option>
+          <option>Partnership or Integration</option>
+          <option>General Inquiry</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Message</label>
+        <textarea name="message" rows="5" placeholder="Tell us about your facility, program, or cooling requirements." required></textarea>
+      </div>
+      <div class="form-submit">
+        <button type="submit" id="submitBtn">Send Message →</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="accent-bar"></div>
+<footer>
+  <div class="footer-logo">Stohnn<span>.</span></div>
+  <div class="footer-tagline">Compressor-Free Thermal Management</div>
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy Policy</a>
+    <span>·</span>
+    <a href="/terms.html">Terms of Use</a>
+  </div>
+  <div class="footer-copy">© Stohnn. All rights reserved.</div>
+</footer>
+
+<script>
+/* ── MOBILE MENU ── */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => { mobileMenu.classList.toggle('open'); });
+function closeMobile() { mobileMenu.classList.remove('open'); }
+
+/* ── SCROLL REVEAL ── */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => { entry.target.classList.add('visible'); }, entry.target.dataset.delay || 0);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.dataset.delay = (i % 4) * 80;
+  revealObserver.observe(el);
+});
+
+/* ── CARD STAGGER ── */
+const cardObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const cards = entry.target.querySelectorAll('.market-card, .product-card, .pillar, .acoustic-item');
+      cards.forEach((card, i) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = `opacity 0.5s ease ${i * 80}ms, transform 0.5s ease ${i * 80}ms`;
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 50);
+        });
+      });
+      cardObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.market-grid, .product-grid, .about-pillars, .acoustic-strip').forEach(el => {
+  cardObserver.observe(el);
+});
+
+/* ── CONTACT FORM — FORMSPREE ── */
+const contactForm = document.getElementById('contactForm');
+const submitBtn   = document.getElementById('submitBtn');
+
+if (contactForm) {
+  contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    try {
+      const res = await fetch('https://formspree.io/f/xeelnkqj', {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        window.location.href = '/thanks.html';
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message →';
+        alert('Something went wrong. Please try again or email us directly.');
+      }
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message →';
+      alert('Network error. Please check your connection and try again.');
+    }
+  });
+}
+
+/* ── NAV SHRINK ON SCROLL ── */
+const nav = document.querySelector('nav');
+const navInner = document.querySelector('.nav-inner');
+function updateNavState() {
+  if (!nav || !navInner) return;
+  if (window.scrollY > 60) {
+    navInner.style.padding = window.innerWidth <= 768 ? '16px 20px' : '12px 48px';
+    nav.style.background = 'rgba(7,9,13,0.97)';
+  } else {
+    navInner.style.padding = window.innerWidth <= 768 ? '16px 20px' : '20px 48px';
+    nav.style.background = 'rgba(7,9,13,0.9)';
+  }
+}
+window.addEventListener('scroll', updateNavState);
+window.addEventListener('resize', updateNavState);
+updateNavState();
+</script>
+</div>
+</body>
+</html>
